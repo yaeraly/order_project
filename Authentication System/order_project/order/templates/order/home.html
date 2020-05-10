@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+{% include 'snippets/messages.html' %}
+
+<a href="{% url 'create' %}">Add New Room</a>
+<ul class="list-group">
+  {% for room in room_list %}
+  <li class="list-group-item d-flex justify-content-around align-items-center">
+    <a href="#">{{room}}</a>
+    <a href="#">
+      <span class="badge badge-info badge-pill">{{room.num_guest}}</span>
+    </a>
+    <a href="{% url 'delete' room.id %}"><i class="fas fa-trash-alt text-danger"></i></a>
+    <a href="#"><i class="fas fa-info-circle text-info"></i></a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock content %}

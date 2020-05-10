@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <form action="{% url 'register' %}" method="post">{% csrf_token %}
+
+    {% include 'account/snippets/title.html' with title='Sign Up' %}
+
+    {{form.email}}
+    {{form.email.errors}}
+    {{form.username}}
+    {{form.username.errors}}
+    {{form.password1}}
+    {{form.password1.errors}}
+    {{form.password2}}
+    {{form.password2.errors}}
+    {{form.floors}}
+    {{form.floors.errors}}
+
+    <button class="btn btn-primary btn-block" type="submit">
+      <i class="fas fa-user-plus"></i> Sign Up
+    </button>
+
+    {% include 'account/snippets/link_login.html' with action='Back' %}
+
+  </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <form action="{% url 'login' %}" method="post">{% csrf_token %}
+
+    {% include 'account/snippets/title.html' with title='Sign In' %}
+
+    {% include 'snippets/messages.html' %}
+
+    {% include 'account/snippets/login_error.html' %}
+
+    {% for field in form %}
+      {{field}}
+    {% endfor %}
+
+    <button class="btn btn-success btn-block" type="submit">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+
+    <a href="{% url 'password_reset' %}">Forgot password?</a>
+    <hr>
+
+    <!-- <p>Don't have an account!</p>  -->
+    <a href="{% url 'register' %}" class="btn btn-primary btn-block text-light">
+      <i class="fas fa-user-plus"></i> Sign up New Account
+    </a>
+  </form>
+</div>
+{% endblock content %}

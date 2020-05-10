@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <form action="" method="post">{% csrf_token %}
+
+    {% include 'account/snippets/title.html' with title='Password Reset' %}
+
+    <p class="text-center"><strong>Please enter your new password twice so we can verify you typed it in correctly.</strong></p>
+
+    <input type="password" name="new_password1" class="form-control" placeholder="New Password" required autofocus>
+    {{form.new_password1.errors}}
+    <input type="password" name="new_password2" class="form-control" placeholder="Repeat Password" required>
+    {{form.new_password2.errors}}
+
+    <button class="btn btn-success btn-block" type="submit">
+      Change My Password
+    </button>
+
+
+    {% include 'account/snippets/link_login.html' with action = 'Sign In' %}
+
+    <hr>
+  </form>
+</div>
+{% endblock content %}

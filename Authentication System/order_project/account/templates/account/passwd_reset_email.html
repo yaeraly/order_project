@@ -1,0 +1,17 @@
+Hello {{user.username}},
+
+We heard that you lost your password. Sorry about that!
+
+But don’t worry! You can use the following link to reset your password for
+Your account {{user.email}}:
+
+{{ protocol}}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+if clicking the link above doesn't work, please copy and paste the URL in a new browser
+window instead.
+
+Please do not reply to this email with your password.
+We will never ask for your password, and we strongly discourage you from sharing it with anyone.
+
+Thanks,
+Eraly
