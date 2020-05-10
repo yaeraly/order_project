@@ -3,17 +3,16 @@
 
 {% block content %}
 <div id="logreg-forms">
-  <form action="{% url 'login' %}" method="post">{% csrf_token %}
+  <form action="{% url 'login' %}" method="post">
+    {% csrf_token %}
 
     {% include 'account/snippets/title.html' with title='Sign In' %}
 
     {% include 'snippets/messages.html' %}
 
-    {% include 'account/snippets/login_error.html' %}
+    {% include 'account/snippets/nonfield_errors.html' %}
 
-    {% for field in form %}
-      {{field}}
-    {% endfor %}
+    {% include 'account/snippets/form_snippet.html' %}
 
     <button class="btn btn-success btn-block" type="submit">
       <i class="fas fa-sign-in-alt"></i> Sign In

@@ -7,8 +7,8 @@
 
     {% include 'account/snippets/title.html' with title='Reset Password' %}
 
-    <input type="email" name="email" class="form-control" placeholder="Email address" required autofocus>
-    {{form.email.errors}}
+    {% include 'account/snippets/form_snippet.html' %}
+
 
     <button class="btn btn-success btn-block" type="submit">
       Reset My Password
