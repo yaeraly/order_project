@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <form action="{% url 'account:password_reset' %}" method="post">{% csrf_token %}
+
+    {% include 'account/snippets/title.html' with title='Reset Password' %}
+
+    {% include 'account/snippets/form_snippet.html' %}
+
+
+    <button class="btn btn-success btn-block" type="submit">
+      Reset My Password
+    </button>
+
+    {% include 'account/snippets/link_login.html' with action='Back'%}
+
+  </form>
+</div>
+{% endblock content %}

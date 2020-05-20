@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <div style="padding: 1em;">
+
+    {% include 'account/snippets/title.html' with title='Password reset sent' %}
+
+    <hr>
+    <div class="text-center">
+      <p><strong>If an account exists with the email you entered.</strong></p>
+      <p>You should receive an <b>instruction</b> for setting your password.</p>
+
+      <p><strong>If you don’t receive an email,</strong></p>
+
+      <p>please <b>make sure</b> you’ve entered the address
+        you registered with, and check your <b>spam</b> folder.
+      </p>
+    </div>
+
+
+    <a class="btn btn-success btn-block text-light" href="{% url 'account:login' %}">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </a>
+    <hr>
+  </div>
+</div>
+{% endblock content %}

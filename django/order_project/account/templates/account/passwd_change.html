@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div id="logreg-forms">
+  <form action="{% url 'account:password_change' %}" method="post">
+    {% csrf_token %}
+
+    {% include 'account/snippets/title.html' with title='Password Change' %}
+
+    {% include 'account/snippets/nonfield_errors.html' %}
+
+    {% include 'account/snippets/form_snippet.html' %}
+
+    <button class="btn btn-success btn-block" type="submit">
+      Change My Password
+    </button>
+
+    <a href="{% url 'account:password_reset' %}">Forgot password?</a>
+    <hr>
+  </form>
+</div>
+{% endblock content %}
