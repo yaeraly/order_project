@@ -1,6 +1,27 @@
 from django import forms
-from .models import Tag, Order
-from .models import Order, Starter, Main, Dessert
+from .models import BreakfastOrder, LunchOrder, DinnerOrder, Starter, Main, Dessert
+
+
+class BreakfastOrderForm(forms.ModelForm):
+    is_needed = forms.BooleanField(
+        required=False, 
+        label='Do you need breakfast? ',
+        label_suffix = '   --- ',
+    )
+
+    comment = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'placeholder': 'Please leave a comment',
+            'class': 'form-control',
+            'rows': 2,
+
+        }),
+        required = False,
+        label_suffix = ''
+    )
+    class Meta:
+        model = BreakfastOrder
+        fields = ['comment',]
 
 
 class LunchOrderForm(forms.ModelForm):
@@ -39,7 +60,7 @@ class LunchOrderForm(forms.ModelForm):
         label_suffix = ''
     )
     class Meta:
-        model = Order
+        model = LunchOrder
         fields = ['starter', 'main', 'dessert', 'comment']
 
 class DinnerOrderForm(forms.ModelForm):
@@ -77,5 +98,5 @@ class DinnerOrderForm(forms.ModelForm):
         label_suffix = ''
     )
     class Meta:
-        model = Order
+        model = DinnerOrder
         fields = ['starter', 'main', 'dessert', 'comment']

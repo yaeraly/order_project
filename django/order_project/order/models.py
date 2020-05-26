@@ -9,10 +9,20 @@ class Floor(models.Model):
         return str(self.floor_num)
 
 
+ROOM_STATUS  = (
+    ('OCC', 'Occupied'),
+    ('CO', 'Check Out'),
+    ('V', 'Vacant'),
+
+)
+
+
 class Room(models.Model):
     floor         = models.ForeignKey(Floor, on_delete=models.CASCADE)
     room_num      = models.PositiveSmallIntegerField(unique=True)
-    num_guest     = models.PositiveSmallIntegerField(default=1)
+    adult         = models.PositiveSmallIntegerField(default=1)
+    kid           = models.PositiveSmallIntegerField(default=0)
+    status        = models.CharField(max_length=20, choices=ROOM_STATUS, default='Vacant')
 
     def __str__(self):
         return str(self.room_num)
@@ -62,11 +72,27 @@ class Dessert(models.Model):
         return self.dessert_name
 
 
-class Order(models.Model):
-    ORDER_STATUS  = (
-        ('pending', 'pending'),
-        ('delivered', 'delivered'),
-    )
+ORDER_STATUS  = (
+    ('pending', 'pending'),
+    ('delivered', 'delivered'),
+)
+
+
+class BreakfastOrder(models.Model):
+    user          = CurrentUserField()
+    room          = models.ForeignKey(Room, null=True, on_delete=models.SET_NULL)
+    is_needed     = models.BooleanField(default=False, null=True)
+    ordered_date  = models.DateTimeField(auto_now_add=True, null=True)
+    updated_date  = models.DateTimeField(auto_now=True, null=True)
+    delivery_time = models.DateTimeField(blank=True, null=True)
+    comment       = models.CharField(max_length=200, blank=True, null=True)
+    status        = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+
+    def __str__(self):
+        return str(self.room)
+
+
+class LunchOrder(models.Model):
     user          = CurrentUserField()
     room          = models.ForeignKey(Room, null=True, on_delete=models.SET_NULL)
     starter       = models.ForeignKey(Starter, blank=True, null=True, on_delete=models.SET_NULL)
@@ -77,14 +103,22 @@ class Order(models.Model):
     delivery_time = models.DateTimeField(blank=True, null=True)
     comment       = models.CharField(max_length=200, blank=True, null=True)
     status        = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
-    tag           = models.ForeignKey(Tag, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return str(self.room)
 
-    def save(self, *args, **kwargs):
-        self.tag = Tag.objects.get(tag_name__exact='Lunch')
-        print(args)
-        print('-----')
-        print(kwargs)
-        super(Order, self).save(self.tag, *args, **kwargs)
+
+class DinnerOrder(models.Model):
+    user          = CurrentUserField()
+    room          = models.ForeignKey(Room, null=True, on_delete=models.SET_NULL)
+    starter       = models.ForeignKey(Starter, blank=True, null=True, on_delete=models.SET_NULL)
+    main          = models.ForeignKey(Main, blank=True, null=True, on_delete=models.SET_NULL)
+    dessert       = models.ForeignKey(Dessert, blank=True, null=True, on_delete=models.SET_NULL)
+    ordered_date  = models.DateTimeField(auto_now_add=True, null=True)
+    updated_date  = models.DateTimeField(auto_now=True, null=True)
+    delivery_time = models.DateTimeField(blank=True, null=True)
+    comment       = models.CharField(max_length=200, blank=True, null=True)
+    status        = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+
+    def __str__(self):
+        return str(self.room)

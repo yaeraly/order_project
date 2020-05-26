@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Floor, Room, Tag, Starter, Main, Dessert, Order
+from .models import Floor, Room, Tag, Starter, Main, Dessert, BreakfastOrder, LunchOrder, DinnerOrder
 from account.models import Account
 
 
@@ -19,4 +19,7 @@ admin.site.register(Tag)
 admin.site.register(Starter)
 admin.site.register(Main)
 admin.site.register(Dessert)
-admin.site.register(Order)
+admin.site.register(BreakfastOrder)
+admin.site.register(LunchOrder)
+admin.site.register(DinnerOrder)
+
