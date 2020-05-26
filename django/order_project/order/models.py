@@ -42,11 +42,24 @@ class Tag(models.Model):
         return self.tag_name
 
 
+
+DAYS = (
+    ('0', 'Monday'),
+    ('1', 'Tuesday'),
+    ('2', 'Wednesday'),
+    ('3', 'Thursday'),
+    ('4', 'Friday'),
+    ('5', 'Saturday'),
+    ('6', 'Sunday'),
+)
+
+
+
 class Starter(models.Model):
     starter_name  = models.CharField(max_length=100, null=True, blank=True)
     date_created  = models.DateTimeField(auto_now_add=True, null=True)
     tags          = models.ManyToManyField(Tag)
-    show_date     = models.DateField(null=True)
+    day           = models.CharField(max_length=3, choices=DAYS, null=True)
 
     def __str__(self):
         return self.starter_name
@@ -56,7 +69,7 @@ class Main(models.Model):
     main_name     = models.CharField(max_length=100, null=True, blank=True)
     date_created  = models.DateTimeField(auto_now_add=True, null=True)
     tags          = models.ManyToManyField(Tag)
-    show_date     = models.DateField(null=True)
+    day           = models.CharField(max_length=3, choices=DAYS, null=True)
 
     def __str__(self):
         return self.main_name
@@ -66,15 +79,17 @@ class Dessert(models.Model):
     dessert_name  = models.CharField(max_length=100, null=True, blank=True)
     date_created  = models.DateTimeField(auto_now_add=True, null=True)
     tags          = models.ManyToManyField(Tag)
-    show_date     = models.DateField(null=True)
-
+    day           = models.CharField(max_length=3, choices=DAYS, null=True)
+    
     def __str__(self):
         return self.dessert_name
 
 
 ORDER_STATUS  = (
-    ('pending', 'pending'),
-    ('delivered', 'delivered'),
+    ('pending', 'Pending'),
+    ('delivered', 'Delivered'),
+    ('cancelled', 'Cancelled'),
+
 )
 
 
@@ -86,7 +101,7 @@ class BreakfastOrder(models.Model):
     updated_date  = models.DateTimeField(auto_now=True, null=True)
     delivery_time = models.DateTimeField(blank=True, null=True)
     comment       = models.CharField(max_length=200, blank=True, null=True)
-    status        = models.CharField(max_length=20, choices=ORDER_STATUS, default='pending')
+    status        = models.CharField(max_length=20, choices=ORDER_STATUS, default='Pending')
 
     def __str__(self):
         return str(self.room)

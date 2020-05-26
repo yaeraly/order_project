@@ -1,3 +1,4 @@
+import datetime
 from django import forms
 from .models import BreakfastOrder, LunchOrder, DinnerOrder, Starter, Main, Dessert
 
@@ -25,8 +26,11 @@ class BreakfastOrderForm(forms.ModelForm):
 
 
 class LunchOrderForm(forms.ModelForm):
+    def get_today():
+        return datetime.datetime.today().weekday()
+
     starter = forms.ModelChoiceField(
-        queryset=Starter.objects.filter(tags__tag_name='Lunch'),
+        queryset=Starter.objects.filter(tags__tag_name='Lunch', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         label='Starter',
@@ -34,7 +38,7 @@ class LunchOrderForm(forms.ModelForm):
         label_suffix = ''
     )
     main = forms.ModelChoiceField(
-        queryset=Main.objects.filter(tags__tag_name='Lunch'),
+        queryset=Main.objects.filter(tags__tag_name='Lunch', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         required = False,
@@ -42,7 +46,7 @@ class LunchOrderForm(forms.ModelForm):
         label_suffix = ''
     )
     dessert = forms.ModelChoiceField(
-        queryset=Dessert.objects.filter(tags__tag_name='Lunch'),
+        queryset=Dessert.objects.filter(tags__tag_name='Lunch', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         required = False,
@@ -63,16 +67,21 @@ class LunchOrderForm(forms.ModelForm):
         model = LunchOrder
         fields = ['starter', 'main', 'dessert', 'comment']
 
+
+
 class DinnerOrderForm(forms.ModelForm):
+    def get_today():
+        return datetime.datetime.today().weekday()
+        
     starter = forms.ModelChoiceField(
-        queryset=Starter.objects.filter(tags__tag_name='Dinner'),
+        queryset=Starter.objects.filter(tags__tag_name='Dinner', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         required = False,
         label_suffix = ''
     )
     main = forms.ModelChoiceField(
-        queryset=Main.objects.filter(tags__tag_name='Dinner'),
+        queryset=Main.objects.filter(tags__tag_name='Dinner', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         required = False,
@@ -80,7 +89,7 @@ class DinnerOrderForm(forms.ModelForm):
         label_suffix = ''
     )
     dessert = forms.ModelChoiceField(
-        queryset=Dessert.objects.filter(tags__tag_name='Dinner'),
+        queryset=Dessert.objects.filter(tags__tag_name='Dinner', day=get_today()),
         widget=forms.RadioSelect,
         empty_label=None,
         required = False,

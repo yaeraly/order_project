@@ -6,40 +6,47 @@
 
   <nav>
     <div class="nav nav-tabs justify-content-center" role="tablist">
-      <a class="nav-item nav-link active" data-toggle="tab" href="#breakfast">Breakfast Report</a>
+      <a class="nav-item nav-link" data-toggle="tab" href="#breakfast">Breakfast Report</a>
       <a class="nav-item nav-link" data-toggle="tab" href="#lunch">Lunch Report</a>
       <a class="nav-item nav-link" data-toggle="tab" href="#dinner">Dinner Report</a>
     </div>
+    {% include 'order/snippets/pagination.html' %}
+    
   </nav>
 
   <div class="tab-content">
     <div class="tab-pane fade show active" id="breakfast" role="tabpanel">
       <br>
-      {% include 'order/snippets/pagination.html' %}
       <h3 class="text-center text-uppercase font-weight-bold">Breakfast Report</h3>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-hover table-bordered">
         <thead class="bg-info text-white">
           <tr class="text-center">
             <th scope="col">Room</th>
             <th scope="col">Comment</th>
+            <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {% for order in breakfast_list %}
-            <tr class="text-center">
-              <th scope="row">{{ order.room }}</th>
-              <td>{{order.comment}}</td>
-              <td>
-                <a href="#" class="edit" title="Edit" data-toggle="tooltip">
-                  <i class="material-icons">&#xE254;</i>
-                </a>
-                <a href="{% url 'order:delete_b' order.id %}" class="delete" title="Delete" data-toggle="tooltip">
-                  <i class="material-icons">&#xE872;</i>
-                </a>
-              </td>
-              </tr>
-            {% endfor %}
+          {% for floor in floor_list %}
+            {% for room in floor.room_set.all %}
+              {% for order in room.breakfastorder_set.all %}
+                <tr class="text-center">
+                  <th scope="row">{{ order.room }}</th>
+                  <td>{{order.comment}}</td>
+                  <th class="text-capitalize"><span class="status text-warning">&bull;</span> {{order.status}}</td>
+                  <td>
+                    <a href="#" class="edit" title="Edit" data-toggle="tooltip">
+                      <i class="material-icons">&#xE254;</i>
+                    </a>
+                    <a href="" class="delete" title="Delete" data-toggle="tooltip">
+                      <i class="material-icons">&#xE872;</i>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
+             {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -48,37 +55,42 @@
 
     <div class="tab-pane fade show" id="lunch" role="tabpanel">
       <br>
-      {% include 'order/snippets/pagination.html' %}
       <h3 class="text-center text-uppercase font-weight-bold">Lunch Report</h3>
-      <table class="table table-striped table-bordered">
+      <table class="table table-striped table-hover table-bordered">
         <thead class="bg-info text-white">
           <tr class="text-center">
-            <th scope="col">Room</th>
+            <th scope="col">#</th>
             <th scope="col">Starter</th>
             <th scope="col">Main Course</th>
             <th scope="col">Dessert</th>
             <th scope="col">Comment</th>
+            <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {% for order in lunch_list %}
-            <tr class="text-center">
-              <th scope="row">{{ order.room }}</th>
-              <td>{{order.starter}}</td>
-              <td>{{order.main}}</td>
-              <td>{{order.dessert}}</td>
-              <td>{{order.comment}}</td>
-              <td>
-                <a href="#" class="edit" title="Edit" data-toggle="tooltip">
-                  <i class="material-icons">&#xE254;</i>
-                </a>
-                <a href="{% url 'order:delete_l' order.id %}" class="delete" title="Delete" data-toggle="tooltip">
-                  <i class="material-icons">&#xE872;</i>
-                </a>
-              </td>
-              </tr>
+          {% for floor in floor_list %}
+            {% for room in floor.room_set.all %}
+              {% for order in room.lunchorder_set.all %}
+                <tr class="text-center">
+                  <th scope="row">{{ order.room }}</th>
+                  <td>{{order.starter}}</td>
+                  <td>{{order.main}}</td>
+                  <td>{{order.dessert}}</td>
+                  <td>{{order.comment}}</td>
+                  <th class="text-capitalize"><span class="status text-warning">&bull;</span> {{order.status}}</td>
+                  <td>
+                    <a href="#" class="edit" title="Edit" data-toggle="tooltip">
+                      <i class="material-icons">&#xE254;</i>
+                    </a>
+                    <a href="{% url 'order:delete_l' order.id %}" class="delete" title="Delete" data-toggle="tooltip">
+                      <i class="material-icons">&#xE872;</i>
+                    </a>
+                  </td>
+                </tr>
+              {% endfor %}
             {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -89,38 +101,43 @@
     <div class="tab-pane fade" id="dinner" role="tabpanel">
       <div class="tab-pane fade show" id="lunch" role="tabpanel">
         <br>
-        {% include 'order/snippets/pagination.html' %}
 
         <h3 class="text-center text-uppercase font-weight-bold">Dinner Report</h3>
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-hover table-bordered">
           <thead class="bg-info text-white">
             <tr class="text-center">
-              <th scope="col">Room</th>
+              <th scope="col">#</th>
               <th scope="col">Starter</th>
               <th scope="col">Main Course</th>
               <th scope="col">Dessert</th>
               <th scope="col">Comment</th>
+              <th scope="col">Status</th>
               <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {% for order in dinner_list %}
-              <tr class="text-center">
-                <th scope="row">{{ order.room }}</th>
-                <td>{{order.starter}}</td>
-                <td>{{order.main}}</td>
-                <td>{{order.dessert}}</td>
-                <td>{{order.comment}}</td>
-                <td>
-                  <a href="#" class="edit" title="Edit" data-toggle="tooltip">
-                    <i class="material-icons">&#xE254;</i>
-                  </a>
-                  <a href="{% url 'order:delete_d' order.id %}" class="delete" title="Delete" data-toggle="tooltip">
-                    <i class="material-icons">&#xE872;</i>
-                  </a>
-                </td>
+            {% for floor in floor_list %}
+            {% for room in floor.room_set.all %}
+              {% for order in room.dinnerorder_set.all %}
+                <tr class="text-center">
+                  <th scope="row">{{ order.room }}</th>
+                  <td>{{order.starter}}</td>
+                  <td>{{order.main}}</td>
+                  <td>{{order.dessert}}</td>
+                  <td>{{order.comment}}</td>
+                  <th class="text-capitalize"><span class="status text-warning">&bull;</span> {{order.status}}</td>
+                  <td>
+                    <a href="#" class="edit" title="Edit" data-toggle="tooltip">
+                      <i class="material-icons">&#xE254;</i>
+                    </a>
+                    <a href="{% url 'order:delete_l' order.id %}" class="delete" title="Delete" data-toggle="tooltip">
+                      <i class="material-icons">&#xE872;</i>
+                    </a>
+                  </td>
                 </tr>
               {% endfor %}
+            {% endfor %}
+          {% endfor %}
           </tbody>
         </table>
       </div>

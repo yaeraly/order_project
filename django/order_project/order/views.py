@@ -27,26 +27,16 @@ class HomeListView(LoginRequiredMixin, generic.ListView):
 
 
 class ReportListView(LoginRequiredMixin, generic.ListView):
-    model = LunchOrder
+    model = Floor
     template_name = 'order/report.html'
+    paginate_by = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+
+    def get_queryset(self):
         self.account = get_object_or_404(Account, email=self.request.user)
+        return self.account.floors.all()
 
-        context['breakfast_list'] = BreakfastOrder.objects.filter(
-            user=self.account
-        )
-
-        context['lunch_list'] = LunchOrder.objects.filter(
-            user=self.account
-        )
-
-        context['dinner_list'] = DinnerOrder.objects.filter(
-            user=self.account
-        )
-
-        return context
+        
 
 class RoomCreate(SuccessMessageMixin, generic.CreateView):
     model = Room
@@ -143,6 +133,7 @@ def menu(request, pk):
         Room, DinnerOrder, max_num=1, can_delete=False,
         form=DinnerOrderForm
     )
+
     if request.method == 'POST':
         breakfastformset = BreakfastOrderFormSet(request.POST, instance=room, prefix='breakfastform')
         lunchformset = LunchOrderFormSet(request.POST, instance=room, prefix='lunchform')

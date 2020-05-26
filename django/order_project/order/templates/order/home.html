@@ -33,8 +33,8 @@
     <thead>
       <tr class="text-center">
         <th>Room <i class="fa fa-sort"></i></th>
-        <th>Status <i class="fa fa-sort"></i></th>
-        <th>Adult&Kid <i class="fa fa-sort"></i></th>
+        <th>B L D <i class="fa fa-sort"></i></th>
+        <th>A&K</i></th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -43,10 +43,20 @@
         {% for room in floor.room_set.all %}
         <tr class="text-center">
           <td><a href="{% url 'order:menu' room.id %}">{{room}}</a></td>
-          <td><span class="status text-success">&bull;</span>{{room.status}}</td>
-          <td>
-            <span class="badge badge-info badge-pill">{{room.adult}}</span>
-            <span class="badge badge-info badge-pill">{{room.kid}}</span>
+          <td class="text-primary">
+            <i class="fas fa-check"></i>
+            <i class="fas fa-check"></i>
+            <i class="fas fa-check"></i>
+          </td>
+          <td> 
+            {% if room.adult > 1 %}
+              <span class="badge badge-danger badge-pill">{{room.adult}}</span>
+            {% else %}
+              <span class="badge badge-info badge-pill">{{room.adult}}</span>
+            {% endif %}
+            {% if room.kid %}
+              <span class="badge badge-warning badge-pill">{{room.kid}}</span>
+            {% endif %}
           </td>
           <td>
             <a href="#viewEmployeeModal" class="view" title="View" data-toggle="modal">
