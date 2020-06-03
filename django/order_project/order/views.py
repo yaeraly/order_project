@@ -1,6 +1,5 @@
 from django import forms
 from pprint import pprint
-from django.db.models import Q
 from django.views import generic
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -9,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import get_object_or_404, render, redirect, get_list_or_404
+
 
 from account.models import Account
 from .models import Floor, Room, BreakfastOrder, LunchOrder, DinnerOrder
@@ -32,9 +32,9 @@ class ReportListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 1
 
 
-    def get_queryset(self):
-        self.account = get_object_or_404(Account, email=self.request.user)
-        return self.account.floors.all()
+    # def get_queryset(self):
+    #     self.account = get_object_or_404(Account, email=self.request.user)
+    #     return self.account.floors.all()
 
         
 
