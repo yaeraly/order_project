@@ -21,6 +21,7 @@ class HomeListView(LoginRequiredMixin, generic.ListView):
     template_name = 'order/home.html'
     paginate_by = 1
 
+\
     def get_queryset(self):
         self.account = get_object_or_404(Account, email=self.request.user)
         return self.account.floors.all()
